@@ -1,10 +1,14 @@
 from App.database import db
 
 class Department(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
+    name = db.Column(db.String)
+    
+    courses_list = db.relationship('Course', back_populates='department')
+    courses = db.relationship('Course', back_populates='department', overlaps="courses_list")  # Add overlaps parameter
+    programs = db.relationship('Program', back_populates='department')
 
-    __tablename__ = 'departments'  # Explicitly set the table name
-
-    def __repr__(self):
-        return f"Department('{self.name}')"
+    def __init__(self, name):
+        self.name = name
+        

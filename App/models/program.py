@@ -5,9 +5,11 @@ class Program(db.Model):
     core_credits = db.Column(db.Integer)
     elective_credits = db.Column(db.Integer)
     foun_credits = db.Column(db.Integer)
-    
+    department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
+
     students = db.relationship('Student', backref='program', lazy=True)
     courses = db.relationship('ProgramCourses', backref='program', lazy=True)
+    department = db.relationship('Department', back_populates='programs')
 
     def __init__(self, name, core, elective, foun):
        self.name = name

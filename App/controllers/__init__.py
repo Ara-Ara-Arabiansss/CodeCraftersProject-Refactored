@@ -10,4 +10,5 @@ from .studentCourseHistory import *
 from .coursePlanCourses import *
 from .coursesOfferedPerSem import *
 from .coursePlan import *
+from .department import*
 from .courseOfferings import *

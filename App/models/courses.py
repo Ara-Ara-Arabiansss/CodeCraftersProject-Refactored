@@ -1,6 +1,6 @@
 # from App.models import Prerequisites
 from App.database import db
-from App.models import Prerequisites
+from App.models import prerequisites
 
 import json
 
@@ -14,10 +14,14 @@ class Course(db.Model):
     semester = db.Column(db.Integer)
     level = db.Column(db.Integer)   #the degree year that the course is typically taken
     offered = db.Column(db.Boolean) #whether or not the course is currently offered
-
+    department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
+    
+    # offered = db.relationship('CoursesOfferedPerSem', backref ='courses', lazy=True)
     students = db.relationship('StudentCourseHistory', backref='courses', lazy=True)
     programs = db.relationship('ProgramCourses', backref='courses', lazy=True)
-    prerequisites = db.relationship('Prerequisites', foreign_keys=[Prerequisites.course_code], lazy = True)
+    prerequisites = db.relationship('Prerequisites', backref='courses', lazy = True)
+    department = db.relationship('Department', back_populates='courses')
+    # planIds = db.relationship('CoursePlanCourses', backref='courses', lazy=True)
    
     
     def __init__(self, code, name, credits, rating, semester, level, offered):
