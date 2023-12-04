@@ -26,14 +26,17 @@ def create_prereq(course, prereqCode):
 
 
 
-def get_all_prerequisites(courseName):
-    return Prerequisites.query.filter(Prerequisites.courseName == courseName).all()
+def get_all_prerequisites(courseCode):
+    return Prerequisites.query.filter_by(course_code = courseCode).all()
 
-def getPrereqCodes(courseName):
-    prereqs = get_all_prerequisites(courseName)
+def get_prerequisites(courseCode):
+    return Prerequisites.query.filter_by(course_code = courseCode).all()
+
+def getPrereqCodes(courseCode):
+    prereqs = get_prerequisites(courseCode)
     codes = []
 
     for p in prereqs:
-        codes.append(p.prereq_courseCode)
+        codes.append(p.prereq_code)
     
     return codes
