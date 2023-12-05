@@ -1,0 +1,1466 @@
+{
+	"info": {
+		"_postman_id": "db938a96-95f4-48de-8d10-158d93fe7ee2",
+		"name": "CodeCrafters",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20468908",
+		"_collection_link": "https://speeding-shadow-335389.postman.co/workspace/79943559-5be3-4a00-834b-ad8dc11186af/collection/30781187-db938a96-95f4-48de-8d10-158d93fe7ee2?action=share&source=collection_link&creator=20468908"
+	},
+	"item": [
+		{
+			"name": "Staff Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    token=pm.response.json().token\r",
+							"    pm.expect(token).to.exist\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Failure response is valid\", ()=>{\r",
+							"    pm.expect(pm.response.json().error).to.eql(\"invalid credentials\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "password",
+							"value": "staffpass",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "999",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{new_host}}/login",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Staff Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "adminpass",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "999",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "282"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:44:12 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=.eJwljjEOwzAIAP_iuQMYsCGfiUwwatekmar-vZa63HDD6T5lz3Nez7K9z3s-yv6KshU5zAJraxGJHJjWvB_OzSomQ2oP9LZ0ZakK1UPTsROPbAYegI0XQVBgAvM4PA2IlPqYnVZXjQ06D2UZnAKkOFaMREwJyhq5r3n-b8ysfH-0fC2n.ZTLKfA.D2wk_EnKBRnjYlRrSe6-WOSohtc; HttpOnly; Path=/"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NzgyNzQ1MiwianRpIjoiZmNlNDE0YmEtYmE3Zi00N2FlLTk0MDMtNWIyZjJhOTI5ZDAyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6OTk5LCJuYmYiOjE2OTc4Mjc0NTIsImV4cCI6MTY5ODQzMjI1Mn0.tOJA0vF_Fnp4cI1wnknbr3ICGzYJccFGMTR8hhxztto\"\n}"
+				}
+			]
+		},
+		{
+			"name": "(Staff) Get Offered Courses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    pm.response.to.have.jsonBody([])\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Staff\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Staff credentials.');\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{new_host}}/staff/offeredCourses",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"staff",
+						"offeredCourses"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Staff) Get Offered Courses",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{new_host}}/staff/offeredCourses",
+							"host": [
+								"{{new_host}}"
+							],
+							"path": [
+								"staff",
+								"offeredCourses"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 02:40:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "7259"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"Course Code:\": \"COMP1600\",\n        \"Course Name: \": \"Introduction to Computing Concepts\",\n        \"Course Rating: \": 4,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP1601\",\n        \"Course Name: \": \"Programming 1\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP1602\",\n        \"Course Name: \": \"Programming 2\",\n        \"Course Rating: \": 4,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP1603\",\n        \"Course Name: \": \"Programming 3\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP1604\",\n        \"Course Name: \": \"Mathematics for Computing\",\n        \"Course Rating: \": 2,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"INFO1600\",\n        \"Course Name: \": \" Introduction to Information Technology Concepts\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"INFO1601\",\n        \"Course Name: \": \"Introduction to WWW Programming\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"MATH1115\",\n        \"Course Name: \": \"Fundamental Mathematics for the General Sciences 1\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2611\",\n        \"Course Name: \": \"Data Structures\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2601\",\n        \"Course Name: \": \"Computer Architecture\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"MATH2250\",\n        \"Course Name: \": \"Industrial Statistics\",\n        \"Course Rating: \": 4,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3605\",\n        \"Course Name: \": \"Introduction to Data Analytics\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3610\",\n        \"Course Name: \": \"Big Data Analytics\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP2602\",\n        \"Course Name: \": \"Computer Networks\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2603\",\n        \"Course Name: \": \"Object-Oriented Programming 1\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2604\",\n        \"Course Name: \": \"Operating Systems\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2605\",\n        \"Course Name: \": \"Enterprise Database Systems\",\n        \"Course Rating: \": 2,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP2606\",\n        \"Course Name: \": \"Software Engineering 1\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"INFO2602\",\n        \"Course Name: \": \"Web Programming and Technologies 1\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"INFO2604\",\n        \"Course Name: \": \"Information Systems Security\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 2,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3601\",\n        \"Course Name: \": \"Design and Analysis of Algorithms\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3602\",\n        \"Course Name: \": \"Theory of Computing\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3603\",\n        \"Course Name: \": \"Human-Computer Interaction\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"INFO3604\",\n        \"Course Name: \": \"Project\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"FOUN1101\",\n        \"Course Name: \": \"Caribbean Civilization\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"FOUN1105\",\n        \"Course Name: \": \"Scientific and Technical Writing\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"FOUN1301\",\n        \"Course Name: \": \"Law, Governance, Economy and Society\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3606\",\n        \"Course Name: \": \"Wireless and Mobile Computing\",\n        \"Course Rating: \": 3,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3607\",\n        \"Course Name: \": \"Object-Oriented Programming II\",\n        \"Course Rating: \": 2,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    },\n    {\n        \"Course Code:\": \"COMP3608\",\n        \"Course Name: \": \"Intelligent Systems\",\n        \"Course Rating: \": 4,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3609\",\n        \"Course Name: \": \"Game Programming\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3611\",\n        \"Course Name: \": \"Modelling and Simulation\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3612\",\n        \"Course Name: \": \"Special Topics in Computer\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"COMP3613\",\n        \"Course Name: \": \"Software Engineering 2\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 3,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 2\n    },\n    {\n        \"Course Code:\": \"INFO2606\",\n        \"Course Name: \": \" Internship\",\n        \"Course Rating: \": 1,\n        \"Credits: \": 6,\n        \"Level: \": 2,\n        \"No. of Credits: \": 6,\n        \"Semester: \": 3\n    },\n    {\n        \"Course Code:\": \"GEND1005\",\n        \"Course Name: \": \"Introduction to Feminism I\",\n        \"Course Rating: \": 5,\n        \"Credits: \": 3,\n        \"Level: \": 1,\n        \"No. of Credits: \": 3,\n        \"Semester: \": 1\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "(Staff) Get Year/Semester Offered Courses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    pm.response.to.have.jsonBody([])\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Staff\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Staff credentials.');\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": \"2023/2024\",\r\n    \"sem\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/staff/offeredCourses/yearsem",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"staff",
+						"offeredCourses",
+						"yearsem"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Staff) Get Offered Courses",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": \"2023/2024\",\r\n    \"sem\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{new_host}}/staff/offeredCourses/yearsem",
+							"host": [
+								"{{new_host}}"
+							],
+							"path": [
+								"staff",
+								"offeredCourses",
+								"yearsem"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 02:22:43 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1930"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"course\": \"COMP1600\",\n        \"id\": 1,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP1601\",\n        \"id\": 2,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"INFO1600\",\n        \"id\": 6,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"MATH1115\",\n        \"id\": 8,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2611\",\n        \"id\": 9,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2601\",\n        \"id\": 10,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"MATH2250\",\n        \"id\": 11,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3605\",\n        \"id\": 12,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2602\",\n        \"id\": 14,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2603\",\n        \"id\": 15,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2604\",\n        \"id\": 16,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2605\",\n        \"id\": 17,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP2606\",\n        \"id\": 18,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"INFO2602\",\n        \"id\": 19,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3601\",\n        \"id\": 21,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3602\",\n        \"id\": 22,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3603\",\n        \"id\": 23,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"FOUN1101\",\n        \"id\": 25,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"FOUN1105\",\n        \"id\": 26,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3606\",\n        \"id\": 28,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    },\n    {\n        \"course\": \"COMP3607\",\n        \"id\": 29,\n        \"semester\": 1,\n        \"year\": \"2023/2024\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Add PreReq to Course",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"courseCode\":\"COMP2602\",\r\n    \"prereqCode\":[\"COMP1603\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/course/prereq",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"course",
+						"prereq"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add PreReq to Course",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courseCode\":\"COMP2602\",\r\n    \"prereqCode\":[\"COMP1603\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/course/prereq",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"course",
+								"prereq"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 02:53:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "Successfully added Prerequisite!"
+				}
+			]
+		},
+		{
+			"name": "(Staff) Create Program",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    const programName = JSON.parse(pm.request.body).name;\r",
+							"    pm.expect(pm.response.json().message).to.eql('Program '+programName+' added');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Staff\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Staff credentials.');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Program already exists\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql(\"Program already exists\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Invalid value for core credits\", ()=>{\r",
+							"    pm.expect(pm.response.json().error).to.eql(\"'core' must be an integer\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Invalid value for elective credits\", ()=>{\r",
+							"    pm.expect(pm.response.json().error).to.eql(\"'elective' must be an integer\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Invalid value for foundation credits\", ()=>{\r",
+							"    pm.expect(pm.response.json().error).to.eql(\"'foun' must be an integer\")\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Major in Computer Science\",\r\n    \"core\":30,\r\n    \"elective\": 54,\r\n    \"foun\":9\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/staff/program",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"staff",
+						"program"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Staff) Create Program",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"IT\",\r\n    \"core\":45,\r\n    \"elective\": 36,\r\n    \"foun\":9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/staff/program",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"staff",
+								"program"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "36"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:44:32 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Program IT added\"\n}"
+				}
+			]
+		},
+		{
+			"name": "(Staff) Create Program Requirement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    const schema={\r",
+							"        \"type\":\"object\",\r",
+							"        \"properties\":{\r",
+							"            'Program Course ID:' : {\"type\":\"integer\"},\r",
+							"            'Program ID:': {\"type\":\"integer\"},\r",
+							"            'Course Code: ': {\"type\":\"string\"},\r",
+							"            'Course Type: ': {\"type\":\"integer\"}\r",
+							"        },\r",
+							"         \"required\": [\"Course Code: \", \"Course Type: \", \"Program Course ID:\", \"Program ID:\"]\r",
+							"    }\r",
+							"    pm.expect(pm.response.json().message).to.have.jsonSchema(schema)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Staff\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Staff credentials.');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Course is already a program requirement\", ()=>{\r",
+							"    const programName = JSON.parse(pm.request.body).name;\r",
+							"    const courseCode = JSON.parse(pm.request.body).code;\r",
+							"    pm.expect(pm.response.json().message).to.eql(courseCode + \" is already a requirement for \" + programName)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Course type is invalid\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql(\"Invalid course type. Core (1) Elective (2) Foundation (3)\")\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"IT\",\r\n    \"code\":\"COMP1601\",\r\n    \"type\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/programRequirement",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"programRequirement"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Staff) Create Program Requirement",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"IT\",\r\n    \"code\":\"COMP2601\",\r\n    \"type\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/programRequirement",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"programRequirement"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "130"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:44:38 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": {\n        \"Course Code: \": \"COMP2601\",\n        \"Course Type: \": 1,\n        \"Program Course ID:\": 1,\n        \"Program ID:\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Course",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"GEND1005\",\r\n    \"name\":\"Introduction to Feminism I\",\r\n    \"credits\":3,\r\n    \"rating\": 5,\r\n    \"semester\": 1,\r\n    \"level\": 1,\r\n    \"offered\":true,\r\n    \"prereqs\" : [\"COMP1600\", \"INFO1600\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/staff/createcourse",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"staff",
+						"createcourse"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Course",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"GEND1005\",\r\n    \"name\":\"Introduction to Feminism I\",\r\n    \"credits\":3,\r\n    \"rating\": 5,\r\n    \"semester\": 1,\r\n    \"level\": 1,\r\n    \"offered\":true,\r\n    \"prereqs\" : [\"COMP1600\", \"INFO1600\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{new_host}}/staff/createcourse",
+							"host": [
+								"{{new_host}}"
+							],
+							"path": [
+								"staff",
+								"createcourse"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 02:36:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "28"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "Successfully Created course!"
+				}
+			]
+		},
+		{
+			"name": "(Staff) Upload Offered Course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    const schema={\r",
+							"        \"type\":\"object\",\r",
+							"        \"properties\":{\r",
+							"            'ID:' : {\"type\":\"integer\"},\r",
+							"            'Course Code:': {\"type\":\"string\"},\r",
+							"        },\r",
+							"         \"required\": [\"Course Code:\", \"ID:\"]\r",
+							"    }\r",
+							"    pm.expect(pm.response.json()).to.have.jsonSchema(schema)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Staff\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Staff credentials.');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Course was already added\", ()=>{\r",
+							"    const courseCode = JSON.parse(pm.request.body).code;\r",
+							"    pm.expect(pm.response.json().message).to.eql(courseCode + \" already exists in the list of offered courses\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unsucessful\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql(\"Course addition unsucessful\")\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\":\"COMP1601\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/staff/addOfferedCourse",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"staff",
+						"addOfferedCourse"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Staff) Upload Offered Course",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\":\"COMP3610\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/staff/addOfferedCourse",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"staff",
+								"addOfferedCourse"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "45"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:45:50 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Course Code:\": \"COMP3610\",\n    \"ID:\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "(Student) Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    const ID = JSON.parse(pm.request.body).student_id;\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include('user '+ID+' created');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Failure to add all required information\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Missing required fields. Please provide student id, password, name, and program name.\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Invalid program name\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Incorrect program name\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Student already exists\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Student id found\")\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 658,\r\n    \"password\": \"specs\",\r\n    \"name\": \"Erenn\",\r\n    \"programname\": \"IT\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/student",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"student"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Student) Create Student",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\": 658,\r\n    \"password\": \"specs\",\r\n    \"name\": \"Erenn\",\r\n    \"programname\": \"IT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/student",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"student"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "37"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:52:24 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Success!\": \"user 658 created\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Student Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    token=pm.response.json().token\r",
+							"    pm.expect(token).to.exist\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Failure response is valid\", ()=>{\r",
+							"    pm.expect(pm.response.json().error).to.eql(\"invalid credentials\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "password",
+							"value": "specs",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "658",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{new_host}}/login",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Student Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "specs",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "658",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "282"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:52:56 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "session=.eJwljjkOwzAMwP7iuYNkHZbymcCOLLRr0kxF_14DXThwIPgpe57zepbtfd7zUfZXlK3I4R5YVSMSOTBdRzsGq1dMhrQWOHTpylIN6gjLgY24pzqMAFReBEGBCcz9GOlAZNT6bLS65uzQuBtL5xQgw75iJOJGUNbIfc3zf6Ni5fsDtFotnw.ZTLMiA.xwrtA99eOUVnr7X8wWNG1HcmOKQ; HttpOnly; Path=/"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NzgyNzk3NiwianRpIjoiOWI5YjMwNGItZjlhMi00YmU5LWJkZjYtM2FiNGJhNDQ0Yzk4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NjU4LCJuYmYiOjE2OTc4Mjc5NzYsImV4cCI6MTY5ODQzMjc3Nn0.aWGnliTZhxp9cQ9wl-De4XAwU5ZMetuF-gClsuOwfxI\"\n}"
+				}
+			]
+		},
+		{
+			"name": "(Student) Add Course To History",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid\", ()=>{\r",
+							"    const id = JSON.parse(pm.request.body).student_id;\r",
+							"    const code=JSON.parse(pm.request.body).course_code;\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include('Course '+ code + ' added to student '+ id + \"'s course history\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Student\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Student credentials.');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Failure to add all required information\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Missing required fields\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Invalid course\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Course not found\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Course already added\", ()=>{\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Course already completed\")\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 658,\r\n    \"course_code\": \"COMP2601\",\r\n    \"grade\" : \"A\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/student/add_course",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"student",
+						"add_course"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "(Student) Add Course To History",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\": 658,\r\n    \"course_code\": \"COMP2601\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/student/add_course",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"student",
+								"add_course"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Length",
+							"value": "74"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Oct 2023 18:54:18 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.10"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Success!\": \"Course COMP2601 added to student 658's course history\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetStudentCourseHistory",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"student_id\": 658\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/student/get_history",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"student",
+						"get_history"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "getStudentCourseHistory",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"student_id\": 816\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{new_host}}/student/get_history",
+							"host": [
+								"{{new_host}}"
+							],
+							"path": [
+								"student",
+								"get_history"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 02:35:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1179"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Vary",
+							"value": "Cookie"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"Course Code\": \"COMP1600\",\n        \"Grade\": \"A\",\n        \"Program ID\": 1\n    },\n    {\n        \"Course Code\": \"COMP1601\",\n        \"Grade\": \"A\",\n        \"Program ID\": 2\n    },\n    {\n        \"Course Code\": \"COMP1602\",\n        \"Grade\": \"A\",\n        \"Program ID\": 3\n    },\n    {\n        \"Course Code\": \"COMP1603\",\n        \"Grade\": \"A\",\n        \"Program ID\": 4\n    },\n    {\n        \"Course Code\": \"COMP1604\",\n        \"Grade\": \"A\",\n        \"Program ID\": 5\n    },\n    {\n        \"Course Code\": \"MATH1115\",\n        \"Grade\": \"A\",\n        \"Program ID\": 6\n    },\n    {\n        \"Course Code\": \"INFO1600\",\n        \"Grade\": \"A\",\n        \"Program ID\": 7\n    },\n    {\n        \"Course Code\": \"INFO1601\",\n        \"Grade\": \"A\",\n        \"Program ID\": 8\n    },\n    {\n        \"Course Code\": \"FOUN1101\",\n        \"Grade\": \"A\",\n        \"Program ID\": 9\n    },\n    {\n        \"Course Code\": \"FOUN1105\",\n        \"Grade\": \"A\",\n        \"Program ID\": 10\n    },\n    {\n        \"Course Code\": \"FOUN1301\",\n        \"Grade\": \"A\",\n        \"Program ID\": 11\n    },\n    {\n        \"Course Code\": \"COMP3605\",\n        \"Grade\": \"A\",\n        \"Program ID\": 12\n    },\n    {\n        \"Course Code\": \"COMP3606\",\n        \"Grade\": \"A\",\n        \"Program ID\": 13\n    },\n    {\n        \"Course Code\": \"COMP3607\",\n        \"Grade\": \"A\",\n        \"Program ID\": 14\n    },\n    {\n        \"Course Code\": \"COMP3608\",\n        \"Grade\": \"A\",\n        \"Program ID\": 15\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "(Student) Create Student Plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid - Automatic\", ()=>{\r",
+							"    const schema={\r",
+							"        \"type\":\"object\",\r",
+							"        \"properties\":{\r",
+							"            'Success!' : {\"type\":\"string\"},\r",
+							"            'courses': {\"type\":\"array\"}\r",
+							"        },\r",
+							"         \"required\": [\"Success!\",\"courses\"]\r",
+							"    }\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Success response is valid - Manual\", ()=>{\r",
+							"    const id = JSON.parse(pm.request.body).student_id;\r",
+							"    const cmd=JSON.parse(pm.request.body).command;\r",
+							"    const message=JSON.stringify(pm.response.json())\r",
+							"    pm.expect(message).to.include(\"Course \"+ cmd +\" added to student \"+id+\" plan\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 401\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(401);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unauthorized - User is not Student\", ()=>{\r",
+							"    pm.expect(pm.response.json().message).to.eql('You are unauthorized to perform this action. Please login with Student credentials.');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 400\", ()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Incorrect command\", ()=>{\r",
+							"    pm.expect(pm.response.json()).to.eql(\"Invalid command. Please enter 'electives', 'easy', 'fastest', or a valid course code.\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 658,\r\n    \"command\": \"easy\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{new_host}}/student/create_student_plan",
+					"host": [
+						"{{new_host}}"
+					],
+					"path": [
+						"student",
+						"create_student_plan"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
